@@ -1029,7 +1029,11 @@ namespace JHelpers_Demo
 							"\tString result = CommonHelpers.GetDNSName(\"255.255.255.100\");" + Environment.NewLine +
 							"\tString result = CommonHelpers.GetDNSName(\"13.249.120.102\");";
 
+			Cursor.Current = Cursors.WaitCursor;
+			Application.DoEvents();
+
 			String result = CommonHelpers.GetDNSName(Environment.MachineName);
+
 			txtResults.Text += $"The DNS name for {Environment.MachineName} is {result}." + Environment.NewLine;
 			result = CommonHelpers.GetDNSName("www.microsoft.com");
 			txtResults.Text += $"The DNS name for www.microsoft.com is {result}." + Environment.NewLine;
@@ -1037,6 +1041,10 @@ namespace JHelpers_Demo
 			txtResults.Text += $"The DNS name for 255.255.255.100 is {result}." + Environment.NewLine;
 			result = CommonHelpers.GetDNSName("13.249.120.102");
 			txtResults.Text += $"The DNS name for 13.249.120.102 is {result}.";
+
+			Cursor.Current = Cursors.Default;
+			Application.DoEvents();
+
 		}
 
 		private void GetDrives()
@@ -1943,6 +1951,9 @@ namespace JHelpers_Demo
 				txtDescription.Text += "Method to write to directly a log file." + Environment.NewLine + Environment.NewLine +
 									   "\tBoolean result = CommonHelpers.WriteToLog(@\"C:\\Temp\\TestFile.log\", \"Main message to log\", \"Optional second message to log\");";
 
+				Cursor.Current = Cursors.WaitCursor;
+				Application.DoEvents();
+
 				if (!Directory.Exists(@"C:\Temp"))
 				{
 					Directory.CreateDirectory(@"C:\Temp");
@@ -1972,6 +1983,11 @@ namespace JHelpers_Demo
 			{
 				MessageBox.Show(this, "This example requires \"Run as Administrator\" to access the C: drive for write access." + Environment.NewLine +
 									  $"Error Message: {exUnhandled.Message}");
+			}
+			finally
+			{
+				Cursor.Current = Cursors.Default;
+				Application.DoEvents();
 			}
 		}
 
