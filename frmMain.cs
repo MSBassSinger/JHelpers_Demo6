@@ -57,6 +57,8 @@ namespace JHelpers_Demo
 			public const String GetDefaultValue = "GetDefaultValue";
 			public const String GetDNSName = "GetDNSName";
 			public const String GetDrives = "GetDrives";
+			public const String GetEmailDomain = "GetEmailDomain";
+			public const String GetEmailUser = "GetEmailUser"; 
 			public const String GetExceptionInfo = "GetExceptionInfo";
 			public const String GetFullComputerDomainName = "GetFullComputerDomainName";
 			public const String GetFullDateTimeStampForFileName = "GetFullDateTimeStampForFileName";
@@ -79,6 +81,7 @@ namespace JHelpers_Demo
 			public const String IsBoolean = "IsBoolean";
 			public const String IsDaylightSavingsTime = "IsDaylightSavingsTime";
 			public const String IsEmailFormat = "IsEmailFormat";
+			public const String IsEmailValid = "IsEmailValid";
 			public const String IsFileText = "IsFileText";
 			public const String IsInDomain = "IsInDomain";
 			public const String IsIPAddress = "IsIPAddress";
@@ -228,6 +231,8 @@ namespace JHelpers_Demo
 			lstOperations.Items.Add(JHelpersItems.GetDefaultValue);
 			lstOperations.Items.Add(JHelpersItems.GetDNSName);
 			lstOperations.Items.Add(JHelpersItems.GetDrives);
+			lstOperations.Items.Add(JHelpersItems.GetEmailDomain);
+			lstOperations.Items.Add(JHelpersItems.GetEmailUser);
 			lstOperations.Items.Add(JHelpersItems.GetExceptionInfo);
 			lstOperations.Items.Add(JHelpersItems.GetFullComputerDomainName);
 			lstOperations.Items.Add(JHelpersItems.GetFullDateTimeStampForFileName);
@@ -250,6 +255,7 @@ namespace JHelpers_Demo
 			lstOperations.Items.Add(JHelpersItems.IsBoolean);
 			lstOperations.Items.Add(JHelpersItems.IsDaylightSavingsTime);
 			lstOperations.Items.Add(JHelpersItems.IsEmailFormat);
+			lstOperations.Items.Add(JHelpersItems.IsEmailValid);
 			lstOperations.Items.Add(JHelpersItems.IsFileText);
 			lstOperations.Items.Add(JHelpersItems.IsInDomain);
 			lstOperations.Items.Add(JHelpersItems.IsIPAddress);
@@ -394,6 +400,12 @@ namespace JHelpers_Demo
 				case JHelpersItems.GetDrives:
 					GetDrives();
 					break;
+				case JHelpersItems.GetEmailDomain:
+					GetEmailDomain();
+					break;
+				case JHelpersItems.GetEmailUser:
+					GetEmailUser();
+					break;
 				case JHelpersItems.GetExceptionInfo:
 					GetExceptionInfo();
 					break;
@@ -459,6 +471,9 @@ namespace JHelpers_Demo
 					break;
 				case JHelpersItems.IsEmailFormat:
 					IsEmailFormat();
+					break;
+				case JHelpersItems.IsEmailValid:
+					IsEmailValid();
 					break;
 				case JHelpersItems.IsFileText:
 					IsFileText();
@@ -1075,6 +1090,83 @@ namespace JHelpers_Demo
 
 		}
 
+		/// <summary>
+		/// 
+		/// </summary>
+		private void GetEmailDomain()
+		{
+			txtDescription.Text += "Function to get the domain name from a valid email address." + Environment.NewLine + Environment.NewLine +
+								   "\tString result = CommonHelpers.GetEmailDomain(emailAddress, out isValid);";
+
+			String email2Test = "Bubba @somedomain";
+			Boolean isValid = false;
+
+			String result = CommonHelpers.ExtractEmailDomain(email2Test, out isValid);
+
+			if (isValid)
+			{
+				txtResults.Text += $"[{email2Test}] is not a valid email address.";
+			}
+			else
+			{
+				txtResults.Text += $"The domain (or host) for the email address [{email2Test}] is [{result}].";
+			}
+
+			email2Test = "GeorgePBurdell@gt.edu";
+			isValid = false;
+
+			result = CommonHelpers.ExtractEmailDomain(email2Test, out isValid);
+
+			if (isValid)
+			{
+				txtResults.Text += $"[{email2Test}] is not a valid email address.";
+			}
+			else
+			{
+				txtResults.Text += $"The domain (or host) for the email address [{email2Test}] is [{result}].";
+			}
+
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		private void GetEmailUser()
+		{
+			txtDescription.Text += "Function to get the user name from a valid email address." + Environment.NewLine + Environment.NewLine +
+								   "\tString result = CommonHelpers.GetEmailUser(emailAddress, out isValid);";
+
+			String email2Test = "Bubba @somedomain";
+			Boolean isValid = false;
+
+			String result = CommonHelpers.ExtractEmailUser(email2Test, out isValid);
+
+			if (isValid)
+			{
+				txtResults.Text += $"[{email2Test}] is not a valid email address.";
+			}
+			else
+			{
+				txtResults.Text += $"The user name for the email address [{email2Test}] is [{result}].";
+			}
+
+			email2Test = "GeorgePBurdell@gt.edu";
+			isValid = false;
+
+			result = CommonHelpers.ExtractEmailUser(email2Test, out isValid);
+
+			if (isValid)
+			{
+				txtResults.Text += $"[{email2Test}] is not a valid email address.";
+			}
+			else
+			{
+				txtResults.Text += $"The user name for the email address [{email2Test}] is [{result}].";
+			}
+
+		}
+
+
 		private void GetExceptionInfo()
 		{
 			txtDescription.Text += "Function to get information from an Exception instance." + Environment.NewLine + Environment.NewLine +
@@ -1672,6 +1764,33 @@ namespace JHelpers_Demo
 
 			txtResults.Text += $"Is {test1} a correctly formatted email address? {result}";
 		}
+
+		private void IsEmailValid ()
+		{
+
+			
+			txtDescription.Text += "Static method that returns true or false if the string is a properly formatted email address." + Environment.NewLine + Environment.NewLine +
+								   "\tBoolean result = CommonHelpers.IsEmailValid(test1);" + Environment.NewLine;
+
+			String test1 = "John.Doe@domain";
+
+			Boolean result = CommonHelpers.IsEmailValid(test1);
+
+			txtResults.Text += $"Is {test1} a valid email address? {result}" + Environment.NewLine;
+
+			test1 = "John.Doe@domain.net";
+
+			result = CommonHelpers.IsEmailValid(test1);
+
+			txtResults.Text += $"Is {test1} a valid email address? {result}" + Environment.NewLine;
+
+			test1 = "Mary Smith@domain.net";
+
+			result = CommonHelpers.IsEmailValid(test1);
+
+			txtResults.Text += $"Is {test1} a valid email address? {result}";
+		}
+
 
 		private void IsFileText()
 		{
